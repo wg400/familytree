@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">FamilyTree</string>
+
+    <array name="dialog_menu">
+        <item>修改</item>
+        <item>添加孩子</item>
+        <item>添加配偶</item>
+        <item>拨号</item>
+    </array>
+
+    <array name="sex_arr">
+        <item>性别</item>
+        <item>女</item>
+        <item>男</item>
+    </array>
+</resources>

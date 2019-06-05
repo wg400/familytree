@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:id="@+id/memberLayout"
+            android:orientation="vertical"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:background="@drawable/bg_person_tree">
+
+        <ImageView
+                android:id="@+id/ivHead"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_head_default_man"/>
+
+        <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textColor="@color/black"
+                android:lines="1"
+                android:ellipsize="end"
+                android:gravity="center"/>
+
+    </LinearLayout>
+
+    <View android:layout_width="39dp"
+          android:layout_height="1dp"
+          android:background="#999999"
+          android:layout_gravity="center_vertical"
+          android:id="@+id/lineView"/>
+
+    <LinearLayout
+            android:id="@+id/spouseLayout"
+            android:orientation="vertical"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:layout_marginRight="1dp"
+            android:background="@drawable/bg_person_tree">
+
+        <ImageView
+                android:id="@id/ivHead"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_head_default_man"/>
+
+        <TextView
+                android:id="@id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="title"
+                android:textColor="@color/black"
+                android:lines="1"
+                android:ellipsize="end"
+                android:gravity="center"/>
+
+    </LinearLayout>
+
+</LinearLayout>

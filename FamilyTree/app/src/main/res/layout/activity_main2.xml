@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal"
+        tools:context=".Main2Activity">
+
+
+    <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:id="@+id/ivHead"
+            android:src="@drawable/img_head_default_woman"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvName"
+            android:layout_marginTop="8dp"
+            android:hint="姓名"/>
+    <Spinner android:layout_width="match_parent"
+             android:layout_height="48dp"
+             android:id="@+id/spinnerSex"
+             android:layout_marginTop="8dp"
+             android:entries="@array/sex_arr"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:id="@+id/tvPhone"
+            android:inputType="phone"
+            android:hint="手机号码"/>
+    <Button
+            android:text="新增"
+            android:layout_width="144dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:id="@+id/button"/>
+</LinearLayout>
