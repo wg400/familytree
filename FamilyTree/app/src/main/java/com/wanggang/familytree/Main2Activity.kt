@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -40,7 +41,12 @@ class Main2Activity : AppCompatActivity() {
                     mFamilyMember = it
                     tvName.setText(it.name)
                     tvPhone.setText(it.phone)
-                    Glide.with(this).load(it.imagePath).into(ivHead)
+
+                    var options = RequestOptions()
+                        .placeholder(R.drawable.img_head_default_woman)
+                        .error(R.drawable.img_head_default_woman)
+                        .override(400,400)
+                    Glide.with(this).load(it.imagePath).apply(options).into(ivHead)
                     imagePath = it.imagePath
                     if (it.sex == 1) {
                         spinnerSex.setSelection(2)
@@ -124,7 +130,11 @@ class Main2Activity : AppCompatActivity() {
                     if (selectList.isNotEmpty()) {
                         imagePath = selectList[0].compressPath
                         println("imagepath = $imagePath")
-                        Glide.with(this).load(imagePath).into(ivHead)
+                        var options = RequestOptions()
+                            .placeholder(R.drawable.img_head_default_woman)
+                            .error(R.drawable.img_head_default_woman)
+                            .override(400,400)
+                        Glide.with(this).load(imagePath).apply(options).into(ivHead)
                     }
                 }
             }

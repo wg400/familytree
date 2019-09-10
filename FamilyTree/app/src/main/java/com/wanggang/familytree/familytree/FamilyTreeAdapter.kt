@@ -71,8 +71,8 @@ class FamilyTreeAdapter {
         for (familyModel in dataList!!) {
             familyModel.centerPoint!!.calculateCoord(itemWidth, itemHeight, lineSpace, colSpace, left, top)
         }
-        realWidth = (right - left + 4) * (itemWidth + colSpace) / 2
-        realHeight = (top - bottom + 2) * (itemHeight + lineSpace)
+        realWidth = (right - left + 8) * (itemWidth + colSpace) / 2
+        realHeight = (top - bottom + 8) * (itemHeight + lineSpace)
     }
 
     // 添加基线数据节点

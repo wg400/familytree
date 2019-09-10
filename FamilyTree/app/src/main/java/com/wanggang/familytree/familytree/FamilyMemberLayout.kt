@@ -116,19 +116,19 @@ class FamilyMemberLayout : ViewGroup {
     }
 
     fun getLeftBorder(): Int {
-        return (familyTreeAdapter!!.left - 2) * (FamilyTreeAdapter.itemWidth + FamilyTreeAdapter.colSpace) / 2
+        return (familyTreeAdapter!!.left - 4) * (FamilyTreeAdapter.itemWidth + FamilyTreeAdapter.colSpace) / 2
     }
 
     fun getTopBorder(): Int {
-        return (familyTreeAdapter!!.top - 1) * (FamilyTreeAdapter.itemHeight + FamilyTreeAdapter.lineSpace)
+        return (familyTreeAdapter!!.top - 4) * (FamilyTreeAdapter.itemHeight + FamilyTreeAdapter.lineSpace)
     }
 
     fun getRightBorder(): Int {
-        return (familyTreeAdapter!!.right + 2) * (FamilyTreeAdapter.itemWidth + FamilyTreeAdapter.colSpace) / 2
+        return (familyTreeAdapter!!.right + 4) * (FamilyTreeAdapter.itemWidth + FamilyTreeAdapter.colSpace) / 2
     }
 
     fun getBottomBorder(): Int {
-        return (familyTreeAdapter!!.bottom + 1) * (FamilyTreeAdapter.itemHeight + FamilyTreeAdapter.lineSpace)
+        return (familyTreeAdapter!!.bottom + 4) * (FamilyTreeAdapter.itemHeight + FamilyTreeAdapter.lineSpace)
     }
 
     private var memberClick = OnClickListener {

@@ -34,8 +34,8 @@ class TreePoint(var coordinateX: Int, var coordinateY: Int) {
      * 计算当前节点屏幕坐标
      * */
     fun calculateCoord(itemWidth: Int, itemHeight: Int, lineSpace: Int, colSpace: Int, left: Int, top: Int) {
-        screenX = (coordinateX - left + 2) * (itemWidth + colSpace) / 2
-        screenY = (- coordinateY - top + 1) * (itemHeight + lineSpace)
+        screenX = (coordinateX - left + 4) * (itemWidth + colSpace) / 2
+        screenY = (- coordinateY - top + 4) * (itemHeight + lineSpace)
     }
 
     /**

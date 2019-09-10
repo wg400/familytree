@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.wanggang.familytree.R
 import com.wanggang.familytree.model.FamilyMemberModel
 import com.wanggang.familytree.widget.CombinedBaseView
@@ -55,21 +56,33 @@ class FamilyMemberView : CombinedBaseView {
 
             layout(l, t, r, b)
 
+            val manOptions = RequestOptions()
+                .placeholder(R.drawable.img_head_default_man)
+                .error(R.drawable.img_head_default_man)
+                .override(100, 100)
+                .centerCrop()
+            val womanOptions = RequestOptions()
+                .placeholder(R.drawable.img_head_default_woman)
+                .error(R.drawable.img_head_default_woman)
+                .override(100, 100)
+                .centerCrop()
+
             if (familyMemberModel!!.memberEntity!!.sex == 1) {
                 findViewById<LinearLayout>(R.id.memberLayout).findViewById<TextView>(R.id.tvTitle).text = familyMemberModel!!.memberEntity.name
                 Glide.with(context).load(familyMemberModel!!.memberEntity.imagePath)
+                    .apply(manOptions)
                     .into(findViewById<LinearLayout>(R.id.memberLayout).findViewById(R.id.ivHead))
 
                 findViewById<LinearLayout>(R.id.spouseLayout).findViewById<TextView>(R.id.tvTitle).text = familyMemberModel!!.spouseEntity!!.name
-                Glide.with(context).load(familyMemberModel!!.spouseEntity!!.imagePath)
+                Glide.with(context).load(familyMemberModel!!.spouseEntity!!.imagePath).apply(womanOptions)
                     .into(findViewById<LinearLayout>(R.id.spouseLayout).findViewById(R.id.ivHead))
             } else {
                 findViewById<LinearLayout>(R.id.spouseLayout).findViewById<TextView>(R.id.tvTitle).text = familyMemberModel!!.memberEntity.name
-                Glide.with(context).load(familyMemberModel!!.memberEntity.imagePath)
+                Glide.with(context).load(familyMemberModel!!.memberEntity.imagePath).apply(womanOptions)
                     .into(findViewById<LinearLayout>(R.id.spouseLayout).findViewById(R.id.ivHead))
 
                 findViewById<LinearLayout>(R.id.memberLayout).findViewById<TextView>(R.id.tvTitle).text = familyMemberModel!!.spouseEntity!!.name
-                Glide.with(context).load(familyMemberModel!!.spouseEntity!!.imagePath)
+                Glide.with(context).load(familyMemberModel!!.spouseEntity!!.imagePath).apply(manOptions)
                     .into(findViewById<LinearLayout>(R.id.memberLayout).findViewById(R.id.ivHead))
             }
         } else {
@@ -81,7 +94,13 @@ class FamilyMemberView : CombinedBaseView {
             layout(l, t, r, b)
 
             findViewById<LinearLayout>(R.id.memberLayout).findViewById<TextView>(R.id.tvTitle).text = familyMemberModel!!.memberEntity.name
-            Glide.with(context).load(familyMemberModel!!.memberEntity.imagePath)
+            var defaultRes = if (familyMemberModel!!.memberEntity.sex == 1) R.drawable.img_head_default_man else R.drawable.img_head_default_woman
+            val options = RequestOptions()
+                .placeholder(defaultRes)
+                .error(defaultRes)
+                .override(100, 100)
+                .centerCrop()
+            Glide.with(context).load(familyMemberModel!!.memberEntity.imagePath).apply(options)
                 .into(findViewById<LinearLayout>(R.id.memberLayout).findViewById(R.id.ivHead))
         }
     }

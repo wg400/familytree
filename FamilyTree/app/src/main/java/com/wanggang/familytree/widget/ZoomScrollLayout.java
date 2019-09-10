@@ -2,7 +2,10 @@ package com.wanggang.familytree.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.*;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.View;
 import android.widget.RelativeLayout;
 import com.orhanobut.logger.Logger;
 import com.wanggang.familytree.DensityUtil;
@@ -19,16 +22,12 @@ public class ZoomScrollLayout extends RelativeLayout implements ScaleGestureDete
     private static final float MIN_ZOOM = 0.3f;
     private static final float MAX_ZOOM = 3.0f;
 
-    private Integer mLeft, mTop, mRight, mBottom;
     private int centerX, centerY;
     private float mLastScale = 1.0f;
     private float totleScale = 1.0f;
 
     // childview
     private View mChildView;
-
-    // 拦截滑动事件
-    float mDistansX, mDistansY, mTouchSlop;
 
     private enum MODE {
         ZOOM, DRAG, NONE
@@ -62,17 +61,13 @@ public class ZoomScrollLayout extends RelativeLayout implements ScaleGestureDete
         super.onLayout(changed, l, t, r, b);
 
         mChildView = getChildAt(0);
+
         centerX = getWidth() / 2;
+
         centerY = getHeight() / 2;
 
         mChildView.layout(((FamilyMemberLayout) mChildView).getLeftBorder() + centerX, ((FamilyMemberLayout) mChildView).getTopBorder() + DensityUtil.dip2px(getContext(), 64),
                 ((FamilyMemberLayout) mChildView).getRightBorder() + centerX, ((FamilyMemberLayout) mChildView).getBottomBorder() + DensityUtil.dip2px(getContext(), 64));
-
-//        mChildView.layout(((FamilyTreeView) mChildView).getLeftBorder() + centerX, ((FamilyTreeView) mChildView).getTopBorder() + DensityUtil.dip2px(getContext(), 64),
-//                ((FamilyTreeView) mChildView).getRightBorder() + centerX, ((FamilyTreeView) mChildView).getBottomBorder() + DensityUtil.dip2px(getContext(), 64));
-
-//        mChildView.layout(((com.wanggang.familytree.familytree.FamilyTreeView) mChildView).getLeftBorder() + centerX, ((com.wanggang.familytree.familytree.FamilyTreeView) mChildView).getTopBorder() + centerY,
-//                ((com.wanggang.familytree.familytree.FamilyTreeView) mChildView).getRightBorder() + centerX, ((com.wanggang.familytree.familytree.FamilyTreeView) mChildView).getBottomBorder() + centerY);
 
     }
 
@@ -81,31 +76,15 @@ public class ZoomScrollLayout extends RelativeLayout implements ScaleGestureDete
         mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                if (mode == MODE.DRAG) {
-                    if (mChildView == null) {
-                        mChildView = getChildAt(0);
+                if (mChildView == null) {
+                    mChildView = getChildAt(0);
 
-                        centerX = getWidth() / 2;
-                        centerY = getHeight() / 2;
-                    }
-                    if (mLeft == null) {
-                        mLeft = mChildView.getLeft();
-                        mTop = mChildView.getTop();
-                        mRight = mChildView.getRight();
-                        mBottom = mChildView.getBottom();
-                    }
+                    centerX = getWidth() / 2;
 
-                    // 防抖动
-
-                    Logger.i("distanceX=" + distanceX + ";distanceY=" + distanceY);
-                    Logger.i("mLeft=" + mLeft + ";mTop=" + mTop);
-
-                    mLeft = mLeft - (int) distanceX;
-                    mTop = mTop - (int) distanceY;
-                    mRight = mRight - (int) distanceX;
-                    mBottom = mBottom - (int) distanceY;
-                    mChildView.layout(mLeft, mTop, mRight, mBottom);
+                    centerY = getHeight() / 2;
                 }
+                mChildView.setTranslationX(mChildView.getTranslationX() - distanceX);
+                mChildView.setTranslationY(mChildView.getTranslationY() - distanceY);
                 return true;
             }
 
@@ -114,38 +93,10 @@ public class ZoomScrollLayout extends RelativeLayout implements ScaleGestureDete
                 return super.onDown(e);
             }
         });
-
-        // 系统最小滑动距离
-        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
-        int action = e.getActionMasked();
-        int currentX = (int) e.getX();
-        int currentY = (int) e.getY();
-
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                //记录上次滑动的位置
-                mDistansX = currentX;
-                mDistansY = currentY;
-
-                //将当前的坐标保存为起始点
-                mode = MODE.DRAG;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (Math.abs(mDistansX - currentX) >= mTouchSlop || Math.abs(mDistansY - currentY) >= mTouchSlop) { //父容器拦截
-                    return true;
-                }
-                break;
-            //指点杆保持按下，并且进行位移
-            //有手指抬起，将模式设为NONE
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:
-                mode = MODE.NONE;
-                break;
-        }
         return super.onInterceptTouchEvent(e);
     }
 
@@ -180,22 +131,14 @@ public class ZoomScrollLayout extends RelativeLayout implements ScaleGestureDete
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector scaleGestureDetector) {
-        Logger.i("MotionEvent.onScaleBegin");
         mode = MODE.ZOOM;
-        if (mode == MODE.ZOOM) {
-            if (mChildView == null) {
-                mChildView = getChildAt(0);
+        if (mChildView == null) {
+            mChildView = getChildAt(0);
 
-                centerX = getWidth() / 2;
-                centerY = getHeight() / 2;
-            }
+            centerX = getWidth() / 2;
 
-            mLeft = mChildView.getLeft();
-            mTop = mChildView.getTop();
-            mRight = mChildView.getRight();
-            mBottom = mChildView.getBottom();
+            centerY = getHeight() / 2;
         }
-
         return true;
     }
 

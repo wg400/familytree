@@ -69,13 +69,12 @@ public class PersonView extends CombinedBaseView {
                 ivHead.setImageResource(R.drawable.img_head_default_woman);
             }
         } else {
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions.override(100, 100).centerCrop();
-            if (1 == gender) {
-                requestOptions.placeholder(R.drawable.img_head_default_man);
-            } else {
-                requestOptions.placeholder(R.drawable.img_head_default_woman);
-            }
+            int headDefaultRes = 1 == gender ? R.drawable.img_head_default_man : R.drawable.img_head_default_woman;
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(headDefaultRes)
+                    .error(headDefaultRes)
+                    .override(100, 100)
+                    .centerCrop();
             Glide.with(this)
                     .load(image)
                     .apply(requestOptions)
